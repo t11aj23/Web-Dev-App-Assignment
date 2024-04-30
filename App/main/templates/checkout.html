@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <!-- Link to CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Checkout</h1>
+        <form action="{% url 'process_order' %}" method="POST">
+            
+            <fieldset>
+                <legend>Billing Information</legend>
+                <input type="text" name="full_name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="address" placeholder="Address" required>
+                <input type="text" name="city" placeholder="City" required>
+                <input type="text" name="zip_code" placeholder="ZIP Code" required>
+                <input type="text" name="country" placeholder="Country" required>
+            </fieldset>
+            <fieldset>
+                <legend>Payment Information</legend>
+                <input type="text" name="card_number" placeholder="Card Number" required>
+                <input type="text" name="card_holder" placeholder="Card Holder Name" required>
+                <input type="text" name="expiry_date" placeholder="Expiry Date (MM/YY)" required>
+                <input type="text" name="cvv" placeholder="CVV" required>
+            </fieldset>
+           
+            <fieldset>
+                <legend>Order Summary</legend>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>${{ item.product.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">Total:</td>
+                            
+                            <td>${{ total_price }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </fieldset>
+            
+            <button type="submit" class="btn btn-primary">Place Order</button>
+        </form>
+    </div>
+</body>
+</html>
